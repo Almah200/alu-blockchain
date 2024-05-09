@@ -1,1 +1,1 @@
-Readme for alu blockchain projects
+Readme for ALU blockchain projects
