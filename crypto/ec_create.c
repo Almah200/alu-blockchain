@@ -1,8 +1,9 @@
-#include "hblk_crypto.h"
 #include <openssl/ec.h>
 #include <openssl/obj_mac.h>
+#include "hblk_crypto.h"
 
-#define EC_CURVE NID_secp256k1
+
+EC_KEY *ec_create(void);
 
 /**
  * ec_create - creates new EC "private/public" key pair
