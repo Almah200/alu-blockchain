@@ -2,10 +2,7 @@
 #include <openssl/ec.h>
 #include <openssl/obj_mac.h>
 
-
 #define EC_CURVE NID_secp256k1
-
-
 
 /**
  * ec_create - creates new EC "private/public" key pair
@@ -16,15 +13,16 @@
  */
 EC_KEY *ec_create(void)
 {
-	EC_KEY *key;
+EC_KEY *key;
 
-	key = EC_KEY_new_by_curve_name(EC_CURVE);
-	if (!key)
-		return (NULL);
-	if (!EC_KEY_generate_key(key))
-	{
-		EC_KEY_free(key);
-		return (NULL);
-	}
-	return (key);
+key = EC_KEY_new_by_curve_name(EC_CURVE);
+if (!key)
+return (NULL);
+if (!EC_KEY_generate_key(key))
+{
+EC_KEY_free(key);
+return (NULL);
 }
+return (key);
+}
+
