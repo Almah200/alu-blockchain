@@ -1,31 +1,37 @@
 #include "blockchain.h"
 
 /**
- * block_create - creates a new block in the sequence
- * @prev: pointer to previous block
- * @data: pointer of data to duplicate
- * @data_len: length of data
- * Return: pointer to new block or NULL
+ * blockchain_create - Creates a new blockchain with a genesis block
+ *
+ * Return: A pointer to the newly created blockchain
  */
-block_t *block_create(block_t const *prev, int8_t const *data,
-	uint32_t data_len)
+blockchain_t *blockchain_create(void)
 {
-	block_t *new_block = NULL;
-	int i = 0;
+	blockchain_t *new_chain = calloc(1, sizeof(blockchain_t));
+	block_t *new_block = calloc(1, sizeof(block_t));
 
-	new_block = calloc(1, sizeof(block_t));
-	if (new_block == NULL)
+	if (!new_block || !new_chain)
+	{
+		free(new_chain);
 		return (NULL);
-	new_block->info.index = (prev->info).index + 1;
-	new_block->info.difficulty = 0;
-	new_block->info.timestamp = time(NULL);
-	new_block->info.nonce = 0;
-	for (i = 0; i < 32; i++)
-		(new_block->info.prev_hash)[i] = (prev->hash)[i];
-	new_block->data.len = SET_MAX_LEN(data_len, BLOCKCHAIN_DATA_MAX);
-	memcpy(new_block->data.buffer, data, new_block->data.len);
-	return (new_block);
+	}
+	new_chain->chain = llist_create(MT_SUPPORT_FALSE);
+	if (!new_chain->chain)
+	{
+		free(new_block);
+		free(new_chain);
+		return (NULL);
+	}
+
+	memcpy(new_block->data.buffer, "Holberton School",
+			strlen("Holberton School") + 1);
+	new_block->data.len = strlen((const char *)new_block->data.buffer);
+	new_block->info.timestamp = 1537578000;
+	memcpy(new_block->hash, "\xc5\x2c\x26\xc8\xb5\x46\x16\x39\x63\x5d"
+							"\x8e\xdf\x2a\x97\xd4\x8d\x0c\x8e\x00\x09"
+							"\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51"
+							"\x58\x03", SHA256_DIGEST_LENGTH);
+
+	llist_add_node(new_chain->chain, new_block, ADD_NODE_FRONT);
+	return (new_chain);
 }
-
-
-
