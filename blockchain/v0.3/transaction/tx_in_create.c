@@ -5,8 +5,7 @@
  * @unspent: pointer to tx output struct
  * Return: ptr new tx input struct or NULL
  */
-tx_in_t *tx_in
-_create(unspent_tx_out_t const *unspent)
+tx_in_t *tx_in_create(unspent_tx_out_t const *unspent)
 {
 	tx_in_t *txi;
 
